@@ -22,22 +22,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-__version__ = "1.0"
-__author__ = "ExHiraku"
-__license__ = "MIT"
-__copyright__ = "Copyright (c) 2023 ExHiraku"
+from __future__ import annotations
 
 import random
-from typing import ClassVar, Optional, TYPE_CHECKING
+from typing import ClassVar, Optional, TYPE_CHECKING, TypeVar
 
 import aiohttp
 
+from . import __version__
 from .abc import Reaction
 from .errors import InvalidReaction, ReactionNotAvailable, ReactionNotFound
 from .reactions import REACTIONS
 
 if TYPE_CHECKING:
-    from typing_extensions import Self
+    from ._types import ClientT
 
 
 class Client:
@@ -48,7 +46,7 @@ class Client:
     def __init__(self, session: Optional[aiohttp.ClientSession] = None) -> None:
         self.session = session
 
-    async def __aenter__(self) -> Self:
+    async def __aenter__(self: ClientT) -> ClientT:
         return self
 
     async def __aexit__(self, exc_type, exc_val, exc_tb) -> None:
